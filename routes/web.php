@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\ImageUploadController::class, 'index'])->name('home');
+Route::post('/upload', [App\Http\Controllers\ImageUploadController::class, 'store'])->name('upload');
+
