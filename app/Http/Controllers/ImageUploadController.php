@@ -43,7 +43,7 @@ class ImageUploadController extends Controller
         $orm->file_type = $response->getFileType();
         $orm->size = $response->getReadableSize();
         $orm->save();
-        return back()->with('images', ImageUploadResource::collection(ImageUpload::orderBy('id', 'DESC')->paginate(3)));       
+        return back();       
     }
 
     /**
@@ -55,8 +55,8 @@ class ImageUploadController extends Controller
     public function show(ImageUpload $image)
     {
         //
-        
-        return '<img src="'.$image->file_url.'">';
+        $url_image = $image->file_url;
+        return view('show', compact('url_image'));
     }
 
     /**
@@ -92,6 +92,6 @@ class ImageUploadController extends Controller
     {
         //
         $image->delete();
-        return redirect()->route('/images');
+        return back();
     }
 }
