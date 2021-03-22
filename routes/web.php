@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\ImageUploadController::class, 'index'])->name('home');
-Route::post('/upload', [App\Http\Controllers\ImageUploadController::class, 'store'])->name('upload');
+Route::Resource('images', 'App\Http\Controllers\ImageUploadController');
 

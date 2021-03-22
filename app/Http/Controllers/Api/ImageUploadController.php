@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Models\ImageUpload;
 use App\Http\Resources\ImageUploadResource;
+use App\Http\Controllers\Controller;
 class ImageUploadController extends Controller
 {
     /**
@@ -15,7 +16,8 @@ class ImageUploadController extends Controller
     public function index()
     {
         //
-        return view('upload')->with('images', ImageUploadResource::collection(ImageUpload::orderBy('id', 'DESC')->paginate(3)));
+       // return view('upload');
+        return ImageUploadResource::collection(ImageUpload::paginate(3));
     }
 
     /**
@@ -43,7 +45,8 @@ class ImageUploadController extends Controller
         $orm->file_type = $response->getFileType();
         $orm->size = $response->getReadableSize();
         $orm->save();
-        return back()->with('images', ImageUploadResource::collection(ImageUpload::orderBy('id', 'DESC')->paginate(3)));       
+        return new ImageUploadResource($orm);
+       
     }
 
     /**
@@ -55,8 +58,7 @@ class ImageUploadController extends Controller
     public function show(ImageUpload $image)
     {
         //
-        
-        return '<img src="'.$image->file_url.'">';
+        return new ImageUploadResource($image);
     }
 
     /**
@@ -92,6 +94,6 @@ class ImageUploadController extends Controller
     {
         //
         $image->delete();
-        return redirect()->route('/images');
+        return response()->json(null, 204);
     }
 }
